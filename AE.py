@@ -18,6 +18,7 @@ n_encoder_hidden_3 = 250
 
 
 
+# hidden layout이 3개
 def encoder(input, n_code, phase_train):
     with tf.variable_scope("hidden_1_encoder"):
         hidden_1 = layer(input, [784, n_encoder_hidden_1], [n_encoder_hidden_1], phase_train)
@@ -33,6 +34,7 @@ def encoder(input, n_code, phase_train):
     
     return output
 
+# hidden layout이 3개
 def decoder(code, n_code, phase_train):
     with tf.variable_scope("hidden_1"):
         hidden_1 = layer(code, [n_code, n_decoder_hidden_1], [n_decoder_hidden_1], phase_train)
@@ -57,6 +59,7 @@ def layer(input, weight_shape, bias_shape, phase_train):
     
     return tf.nn.sigmoid(layer_batch_norm(logits, weight_shape[1], phase_train))
 
+# batch normalization
 def layer_batch_norm(x, n_out, phase_train):
     beta_init = tf.constant_initializer(value=0.0, dtype=tf.float32)
     gamma_init = tf.constant_initializer(value=1.0, dtype=tf.float32)
@@ -80,6 +83,7 @@ def layer_batch_norm(x, n_out, phase_train):
 
 def loss(output, x):
     with tf.variable_scope("training"):
+        # batch regularization - 신경망에서 모든 가중치 w에 대해 1/2*lamda*w^2를 오차 함수에 추가
         l2 = tf.sqrt(tf.reduce_sum(tf.square(tf.subtract(output, x)), 1)) #sub을 subtract으로 바꿈
         train_loss = tf.reduce_mean(l2)
         train_summary_op = tf.summary.scalar("train_cost", train_loss)

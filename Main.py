@@ -58,7 +58,7 @@ if __name__ == '__main__':
             
             for epoch in range(training_epochs):
                 avg_cost = 0
-                total_batch = int(mnist.train._num_examples/batch_size)
+                total_batch = int(mnist.train._num_examples/batch_size) #example 개수 55000개 / batch_size 100 = 550이 나옴
                 
                 for i in range(total_batch):
                     mbatch_x, mbatch_y = mnist.train.next_batch(batch_size)

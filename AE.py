@@ -83,8 +83,7 @@ def layer_batch_norm(x, n_out, phase_train):
 
 def loss(output, x):
     with tf.variable_scope("training"):
-        # batch regularization - 신경망에서 모든 가중치 w에 대해 1/2*lamda*w^2를 오차 함수에 추가
-        l2 = tf.sqrt(tf.reduce_sum(tf.square(tf.subtract(output, x)), 1)) #sub을 subtract으로 바꿈
+        l2 = tf.sqrt(tf.reduce_sum(tf.square(tf.subtract(output, x)), 1)) #sub을 subtract으로 바꿈, 출력값과 입력값의 차리를 빼고 제곱한 것을 합한 후 루트를 씌운 값이 최소화되도록 한다.
         train_loss = tf.reduce_mean(l2)
         train_summary_op = tf.summary.scalar("train_cost", train_loss)
         
